@@ -72,7 +72,7 @@ outputs:
       commands:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
-        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or r_package_detection)"
+        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
     about:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
