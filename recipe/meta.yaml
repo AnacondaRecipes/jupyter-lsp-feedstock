@@ -27,7 +27,7 @@ outputs:
         - setuptools
         - wheel
       run:
-        - importlib-metadata >=4.8.3
+        - importlib-metadata >=4.8.3 # [py<310]
         - jupyter_server >=1.1.2
         - python
     test:
