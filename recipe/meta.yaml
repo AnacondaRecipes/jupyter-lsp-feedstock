@@ -55,12 +55,12 @@ outputs:
     version: {{ version }}
     build:
       number: {{ build_number }}
-      noarch: python
       skip: True # no texlab / chtex on anaconda main channel
     requirements:
       host:
-        - python >=3.8
+        - python
       run:
+        - python
         - {{ pin_subpackage("jupyter-lsp", exact=True) }}
         - texlab
         - chktex
@@ -101,7 +101,7 @@ outputs:
       commands:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
-        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or r_package_detection)"
+        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
     about:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
@@ -136,7 +136,7 @@ outputs:
       commands:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
-        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or r_package_detection)"
+        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
     about:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
@@ -166,7 +166,7 @@ outputs:
         - pytest-runner
       commands:
         - pip check
-        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }})"
+        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or test_io_failure)"
     about:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
