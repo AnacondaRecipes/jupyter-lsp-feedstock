@@ -1,12 +1,5 @@
-# this is the version the bot will _hopefully_ pick up and PR.
-{% set version = "5.0.0" %}
-# Leave the build number the same if only the server version changes.
+{% set version = "2.2.0" %}
 {% set build_number = 0 %}
-
-# this will likely have to be hand-updated.
-{% set server_version = "2.2.0" %}
-# Leave the build number the same if only the labextension changes.
-{% set server_build_number = 0 %}
 
 # List of jupyter_lsp py.tests ran for each known servers
 {% set server_tests = ["serverextension", "start_known", "listeners"] %}
@@ -16,64 +9,16 @@ package:
   version: {{ version }}
 
 source:
-  - folder: jupyterlab-lsp
-    url: https://pypi.io/packages/source/j/jupyterlab-lsp/jupyterlab-lsp-{{ version }}.tar.gz
-    sha256: 0f88e26803d0f3e4c8c8bef08a9f861f2706a77ca6d4d92f65026c09e958164b
-  - folder: jupyter-lsp
-    url: https://pypi.io/packages/source/j/jupyter-lsp/jupyter-lsp-{{ server_version }}.tar.gz
-    sha256: 8ebbcb533adb41e5d635eb8fe82956b0aafbf0fd443b6c4bfa906edeeb8635a1
+  url: https://pypi.io/packages/source/j/jupyter-lsp/jupyter-lsp-{{ version }}.tar.gz
+  sha256: 8ebbcb533adb41e5d635eb8fe82956b0aafbf0fd443b6c4bfa906edeeb8635a1
 
 outputs:
-  - name: jupyterlab-lsp
+  - name: jupyter-lsp
     script: build_base.bat  # [win]
     script: build_base.sh  # [unix]
     version: {{ version }}
     build:
       number: {{ build_number }}
-      skip: true # [py<38]
-    requirements:
-      host:
-        - pip
-        - python
-        - setuptools
-        - wheel
-      run:
-        - jupyter-lsp >={{ server_version }}
-        - jupyterlab >=4.0.6,<5.0.0a0
-        - python
-    test:
-      requires:
-        - pip
-        - m2-grep  # [win]
-      commands:
-        - pip check
-        # print them all for debugging
-        - jupyter labextension list
-        - jupyter server extension list
-        # write out lists to grep
-        - jupyter labextension list 1>labextensions 2>&1
-        - jupyter server extension list 1>server_extensions 2>&1
-        # check files
-        - grep -iE "jupyterlab-lsp.*OK.*jupyterlab-lsp" labextensions
-        - grep -iE "jupyter_lsp.*OK" server_extensions
-
-    about:
-      home: https://github.com/jupyter-lsp/jupyterlab-lsp
-      license_file:
-        - jupyterlab-lsp/LICENSE
-        - jupyterlab-lsp/jupyterlab_lsp/labextensions/@jupyter-lsp/jupyterlab-lsp/static/third-party-licenses.json
-      license: BSD-3-Clause
-      license_family: BSD
-      summary: Language Server Protocol integration for JupyterLab
-      doc_url: https://jupyterlab-lsp.readthedocs.io
-      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
-
-  - name: jupyter-lsp
-    script: build_base.bat  # [win]
-    script: build_base.sh  # [unix]
-    version: {{ server_version }}
-    build:
-      number: {{ server_build_number }}
       skip: true # [py<38]
     requirements:
       host:
@@ -101,15 +46,15 @@ outputs:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
       license_family: BSD
-      license_file: jupyter-lsp/LICENSE
+      license_file: LICENSE
       summary: Multi-Language Server WebSocket proxy for Jupyter Server
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
   - name: jupyter-lsp-latex
-    version: {{ server_version }}
+    version: {{ version }}
     build:
-      number: {{ server_build_number }}
+      number: {{ build_number }}
       noarch: python
       skip: True # no texlab / chtex on anaconda main channel
     requirements:
@@ -132,20 +77,20 @@ outputs:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
       license_family: BSD
-      license_file: jupyter-lsp/LICENSE
+      license_file: LICENSE
       summary: A metapackage for jupyter-lsp and texlab
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
   - name: jupyter-lsp-python
-    version: {{ server_version }}
+    version: {{ version }}
     build:
-      number: {{ server_build_number }}
-      noarch: python
+      number: {{ build_number }}
     requirements:
       host:
-        - python >=3.8
+        - python
       run:
+        - python
         - {{ pin_subpackage("jupyter-lsp", exact=True) }}
         - python-lsp-server >=1
     test:
@@ -161,21 +106,21 @@ outputs:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
       license_family: BSD
-      license_file: jupyter-lsp/LICENSE
+      license_file: LICENSE
       summary: A metapackage for jupyter-lsp and python-lsp-server
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
   - name: jupyter-lsp-python-plugins
-    version: {{ server_version }}
+    version: {{ version }}
     build:
-      number: {{ server_build_number }}
-      noarch: python
+      number: {{ build_number }}
       skip: True  # no pyls on anaconda main at the moment
     requirements:
       host:
-        - python >=3.8
+        - python
       run:
+        - python
         - {{ pin_subpackage("jupyter-lsp-python", exact=True) }}
         - pyls-isort >=0.2.2
         - pylsp-mypy >=0.5.1,!=0.6.6=*_0
@@ -196,21 +141,21 @@ outputs:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
       license_family: BSD
-      license_file: jupyter-lsp/LICENSE
+      license_file: LICENSE
       summary: A metapackage for jupyter-lsp, python-language-server, and all known plugins
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
   - name: jupyter-lsp-r
-    version: {{ server_version }}
+    version: {{ version }}
     build:
-      number: {{ server_build_number }}
-      noarch: python
+      number: {{ build_number }}
       skip: True  # no r-languageserver on anaconda r channel at the moment
     requirements:
       host:
-        - python >=3.8
+        - python
       run:
+        - python
         - {{ pin_subpackage("jupyter-lsp", exact=True) }}
         # Snippets support https://github.com/jupyter-lsp/jupyterlab-lsp/issues/208
         - r-languageserver >=0.3.5
@@ -226,7 +171,7 @@ outputs:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
       license_family: BSD
-      license_file: jupyter-lsp/LICENSE
+      license_file: LICENSE
       summary: A metapackage jupyter-lsp and r-languageserver
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
@@ -236,7 +181,7 @@ about:
   home: https://github.com/jupyter-lsp/jupyterlab-lsp
   license: BSD-3-Clause
   license_family: BSD
-  license_file: jupyterlab-lsp/LICENSE
+  license_file: LICENSE
   summary: Multi-Language Server WebSocket proxy for Jupyter Server
   doc_url: https://jupyterlab-lsp.readthedocs.io
   dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
