@@ -1,0 +1,7 @@
+aggregate_check: false
+
+channels:
+  - services
+
+upload_channels:
+  - services
