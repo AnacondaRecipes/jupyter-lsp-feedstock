@@ -2,7 +2,7 @@
 {% set build_number = 0 %}
 
 # List of jupyter_lsp py.tests ran for each known servers
-{% set server_tests = ["serverextension", "start_known", "listeners"] %}
+{% set server_tests = ["serverextension", "start_known", "listeners", "test_auth_rest", "test_auth_websocket"] %}
 
 package:
   name: jupyter-lsp-meta
