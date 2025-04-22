@@ -1,0 +1,15 @@
+diff --git a/jupyter_lsp/tests/test_auth.py b/jupyter_lsp/tests/test_auth.py
+index 920c3b1..1c31eb2 100644
+--- a/jupyter_lsp/tests/test_auth.py
++++ b/jupyter_lsp/tests/test_auth.py
+@@ -18,8 +18,9 @@ from .conftest import KNOWN_SERVERS, extra_node_roots
+ LOCALHOST = "127.0.0.1"
+ REST_ROUTES = ["/lsp/status"]
+ WS_ROUTES = [f"/lsp/ws/{ls}" for ls in KNOWN_SERVERS]
++sys_executable_fixed = sys.executable.replace('\\', '/')
+ SUBPROCESS_PREFIX = json.loads(
+-    os.environ.get("JLSP_TEST_SUBPROCESS_PREFIX", f"""["{sys.executable}", "-m"]""")
++    os.environ.get("JLSP_TEST_SUBPROCESS_PREFIX", f"""["{sys_executable_fixed}", "-m"]""")
+ )
+ 
+ 

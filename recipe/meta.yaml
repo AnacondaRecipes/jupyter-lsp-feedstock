@@ -14,6 +14,12 @@ package:
 source:
   url: https://pypi.io/packages/source/j/jupyter-lsp/jupyter-lsp-{{ version }}.tar.gz
   sha256: 793147a05ad446f809fd53ef1cd19a9f5256fd0a2d6b7ce943a982cb4f545001
+  patches:                      # [win]
+    - 0001-test-auth-win.patch  # [win]
+
+requirements:   # [win]
+  build:        # [win]
+    - m2-patch  # [win]
 
 outputs:
   - name: jupyter-lsp
