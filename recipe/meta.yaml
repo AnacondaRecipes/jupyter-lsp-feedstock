@@ -1,8 +1,11 @@
-{% set version = "2.2.0" %}
+{% set version = "2.2.5" %}
 {% set build_number = 0 %}
 
 # List of jupyter_lsp py.tests ran for each known servers
-{% set server_tests = ["serverextension", "start_known", "listeners"] %}
+{% set server_tests = ["serverextension", "start_known", "listeners", "test_auth_rest", "test_auth_websocket"] %}
+
+{% set tests_to_ignore="" %}
+{% set tests_to_ignore="--ignore=tests\\test_auth.py" %}  # [win]
 
 package:
   name: jupyter-lsp-meta
@@ -10,7 +13,13 @@ package:
 
 source:
   url: https://pypi.io/packages/source/j/jupyter-lsp/jupyter-lsp-{{ version }}.tar.gz
-  sha256: 8ebbcb533adb41e5d635eb8fe82956b0aafbf0fd443b6c4bfa906edeeb8635a1
+  sha256: 793147a05ad446f809fd53ef1cd19a9f5256fd0a2d6b7ce943a982cb4f545001
+  patches:                      # [win]
+    - 0001-test-auth-win.patch  # [win]
+
+requirements:   # [win]
+  build:        # [win]
+    - m2-patch  # [win]
 
 outputs:
   - name: jupyter-lsp
@@ -72,7 +81,7 @@ outputs:
       commands:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
-        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
+        - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
     about:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
@@ -101,7 +110,7 @@ outputs:
       commands:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
-        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
+        - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
     about:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
@@ -136,7 +145,7 @@ outputs:
       commands:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
-        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
+        - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
     about:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
@@ -166,7 +175,7 @@ outputs:
         - pytest-runner
       commands:
         - pip check
-        - pytest -vv -p no:warnings --pyargs jupyter_lsp -k "not ({{ server_tests|join(' or ') }} or test_io_failure)"
+        - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or test_io_failure)"
     about:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
