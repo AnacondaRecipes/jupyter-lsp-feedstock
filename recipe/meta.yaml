@@ -1,4 +1,5 @@
-{% set version = "2.2.5" %}
+{% set name = "jupyter-lsp" %}
+{% set version = "2.3.0" %}
 {% set build_number = 0 %}
 
 # List of jupyter_lsp py.tests ran for each known servers
@@ -8,21 +9,17 @@
 {% set tests_to_ignore="--ignore=tests\\test_auth.py" %}  # [win]
 
 package:
-  name: jupyter-lsp-meta
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/j/jupyter-lsp/jupyter-lsp-{{ version }}.tar.gz
-  sha256: 793147a05ad446f809fd53ef1cd19a9f5256fd0a2d6b7ce943a982cb4f545001
-  patches:                      # [win]
-    - 0001-test-auth-win.patch  # [win]
-
-requirements:   # [win]
-  build:        # [win]
-    - m2-patch  # [win]
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: 458aa59339dc868fb784d73364f17dbce8836e906cd75fd471a325cba02e0245
+  patches:                              # [win]
+    - patches/0001-test-auth-win.patch  # [win]
 
 outputs:
-  - name: jupyter-lsp
+  - name: {{ name }}
     script: build_base.bat  # [win]
     script: build_base.sh  # [unix]
     version: {{ version }}
@@ -51,16 +48,8 @@ outputs:
         - jupyter server extension list 1>server_extensions 2>&1
         # check files
         - grep -iE "jupyter_lsp.*OK" server_extensions
-    about:
-      home: https://github.com/jupyter-lsp/jupyterlab-lsp
-      license: BSD-3-Clause
-      license_family: BSD
-      license_file: LICENSE
-      summary: Multi-Language Server WebSocket proxy for Jupyter Server
-      doc_url: https://jupyterlab-lsp.readthedocs.io
-      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
-  - name: jupyter-lsp-latex
+  - name: {{ name }}-latex
     version: {{ version }}
     build:
       number: {{ build_number }}
@@ -82,16 +71,8 @@ outputs:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
-    about:
-      home: https://github.com/jupyter-lsp/jupyterlab-lsp
-      license: BSD-3-Clause
-      license_family: BSD
-      license_file: LICENSE
-      summary: A metapackage for jupyter-lsp and texlab
-      doc_url: https://jupyterlab-lsp.readthedocs.io
-      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
-  - name: jupyter-lsp-python
+  - name: {{ name }}-python
     version: {{ version }}
     build:
       number: {{ build_number }}
@@ -111,16 +92,8 @@ outputs:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
-    about:
-      home: https://github.com/jupyter-lsp/jupyterlab-lsp
-      license: BSD-3-Clause
-      license_family: BSD
-      license_file: LICENSE
-      summary: A metapackage for jupyter-lsp and python-lsp-server
-      doc_url: https://jupyterlab-lsp.readthedocs.io
-      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
-  - name: jupyter-lsp-python-plugins
+  - name: {{ name }}-python-plugins
     version: {{ version }}
     build:
       number: {{ build_number }}
@@ -146,16 +119,8 @@ outputs:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
-    about:
-      home: https://github.com/jupyter-lsp/jupyterlab-lsp
-      license: BSD-3-Clause
-      license_family: BSD
-      license_file: LICENSE
-      summary: A metapackage for jupyter-lsp, python-language-server, and all known plugins
-      doc_url: https://jupyterlab-lsp.readthedocs.io
-      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
-  - name: jupyter-lsp-r
+  - name: {{ name }}-r
     version: {{ version }}
     build:
       number: {{ build_number }}
@@ -176,15 +141,6 @@ outputs:
       commands:
         - pip check
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or test_io_failure)"
-    about:
-      home: https://github.com/jupyter-lsp/jupyterlab-lsp
-      license: BSD-3-Clause
-      license_family: BSD
-      license_file: LICENSE
-      summary: A metapackage jupyter-lsp and r-languageserver
-      doc_url: https://jupyterlab-lsp.readthedocs.io
-      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
-
 
 about:
   home: https://github.com/jupyter-lsp/jupyterlab-lsp
