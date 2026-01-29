@@ -8,7 +8,7 @@
 {% set tests_to_ignore="--ignore=tests\\test_auth.py" %}  # [win]
 
 package:
-  name: jupyter-lsp-meta
+  name: {{ name }}
   version: {{ version }}
 
 source:
@@ -21,7 +21,7 @@ build:
   number: 0
 
 outputs:
-  - name: jupyter-lsp
+  - name: {{ name }}
     script: build_base.bat  # [win]
     script: build_base.sh  # [unix]
     build:
@@ -57,7 +57,7 @@ outputs:
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
-  - name: jupyter-lsp-latex
+  - name: {{ name }}-latex
     build:
       skip: True # no texlab / chtex on anaconda main channel
     requirements:
@@ -86,7 +86,7 @@ outputs:
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
-  - name: jupyter-lsp-python
+  - name: {{ name }}-python
     requirements:
       host:
         - python
@@ -114,7 +114,7 @@ outputs:
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
-  - name: jupyter-lsp-python-plugins
+  - name: {{ name }}-python-plugins
     build:
       skip: True  # no pyls on anaconda main at the moment
     requirements:
@@ -147,7 +147,7 @@ outputs:
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
-  - name: jupyter-lsp-r
+  - name: {{ name }}-r
     build:
       skip: True  # no r-languageserver on anaconda r channel at the moment
     requirements:
