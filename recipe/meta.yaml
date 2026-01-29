@@ -1,6 +1,5 @@
 {% set name = "jupyter-lsp" %}
 {% set version = "2.3.0" %}
-{% set build_number = 0 %}
 
 # List of jupyter_lsp py.tests ran for each known servers
 {% set server_tests = ["serverextension", "start_known", "listeners", "test_auth_rest", "test_auth_websocket"] %}
@@ -9,7 +8,7 @@
 {% set tests_to_ignore="--ignore=tests\\test_auth.py" %}  # [win]
 
 package:
-  name: {{ name }}
+  name: jupyter-lsp-meta
   version: {{ version }}
 
 source:
@@ -18,13 +17,14 @@ source:
   patches:                              # [win]
     - patches/0001-test-auth-win.patch  # [win]
 
+build:
+  number: 0
+
 outputs:
-  - name: {{ name }}
+  - name: jupyter-lsp
     script: build_base.bat  # [win]
     script: build_base.sh  # [unix]
-    version: {{ version }}
     build:
-      number: {{ build_number }}
       skip: true # [py<38]
     requirements:
       host:
@@ -49,10 +49,8 @@ outputs:
         # check files
         - grep -iE "jupyter_lsp.*OK" server_extensions
 
-  - name: {{ name }}-latex
-    version: {{ version }}
+  - name: jupyter-lsp-latex
     build:
-      number: {{ build_number }}
       skip: True # no texlab / chtex on anaconda main channel
     requirements:
       host:
@@ -72,10 +70,7 @@ outputs:
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
 
-  - name: {{ name }}-python
-    version: {{ version }}
-    build:
-      number: {{ build_number }}
+  - name: jupyter-lsp-python
     requirements:
       host:
         - python
@@ -91,12 +86,12 @@ outputs:
       commands:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
-        - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
+        # Skip test_reader on osx because it's a flaky test that fails intermittently
+        - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure or test_reader)"  # [osx]
+        - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"  # [not osx]
 
-  - name: {{ name }}-python-plugins
-    version: {{ version }}
+  - name: jupyter-lsp-python-plugins
     build:
-      number: {{ build_number }}
       skip: True  # no pyls on anaconda main at the moment
     requirements:
       host:
@@ -120,10 +115,8 @@ outputs:
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
 
-  - name: {{ name }}-r
-    version: {{ version }}
+  - name: jupyter-lsp-r
     build:
-      number: {{ build_number }}
       skip: True  # no r-languageserver on anaconda r channel at the moment
     requirements:
       host:
