@@ -48,6 +48,14 @@ outputs:
         - jupyter server extension list 1>server_extensions 2>&1
         # check files
         - grep -iE "jupyter_lsp.*OK" server_extensions
+    about:
+      home: https://github.com/jupyter-lsp/jupyterlab-lsp
+      license: BSD-3-Clause
+      license_family: BSD
+      license_file: LICENSE
+      summary: Multi-Language Server WebSocket proxy for Jupyter Server
+      doc_url: https://jupyterlab-lsp.readthedocs.io
+      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
   - name: jupyter-lsp-latex
     build:
@@ -69,6 +77,14 @@ outputs:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
+    about:
+      home: https://github.com/jupyter-lsp/jupyterlab-lsp
+      license: BSD-3-Clause
+      license_family: BSD
+      license_file: LICENSE
+      summary: A metapackage for jupyter-lsp and texlab
+      doc_url: https://jupyterlab-lsp.readthedocs.io
+      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
   - name: jupyter-lsp-python
     requirements:
@@ -89,6 +105,14 @@ outputs:
         # Skip test_reader on osx because it's a flaky test that fails intermittently
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure or test_reader)"  # [osx]
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"  # [not osx]
+    about:
+      home: https://github.com/jupyter-lsp/jupyterlab-lsp
+      license: BSD-3-Clause
+      license_family: BSD
+      license_file: LICENSE
+      summary: A metapackage for jupyter-lsp and python-lsp-server
+      doc_url: https://jupyterlab-lsp.readthedocs.io
+      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
   - name: jupyter-lsp-python-plugins
     build:
@@ -114,6 +138,14 @@ outputs:
         - pip check
         # TODO add test for current ls by adding " or pyls" to -k option - but 1 test is failing
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or r_package_detection or test_io_failure)"
+    about:
+      home: https://github.com/jupyter-lsp/jupyterlab-lsp
+      license: BSD-3-Clause
+      license_family: BSD
+      license_file: LICENSE
+      summary: A metapackage for jupyter-lsp, python-language-server, and all known plugins
+      doc_url: https://jupyterlab-lsp.readthedocs.io
+      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
   - name: jupyter-lsp-r
     build:
@@ -134,6 +166,14 @@ outputs:
       commands:
         - pip check
         - pytest -vv -p no:warnings --pyargs jupyter_lsp {{ tests_to_ignore }} -k "not ({{ server_tests|join(' or ') }} or test_io_failure)"
+    about:
+      home: https://github.com/jupyter-lsp/jupyterlab-lsp
+      license: BSD-3-Clause
+      license_family: BSD
+      license_file: LICENSE
+      summary: A metapackage jupyter-lsp and r-languageserver
+      doc_url: https://jupyterlab-lsp.readthedocs.io
+      dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
 about:
   home: https://github.com/jupyter-lsp/jupyterlab-lsp
