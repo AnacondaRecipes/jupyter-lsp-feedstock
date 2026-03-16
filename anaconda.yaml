@@ -1,0 +1,10 @@
+anaconda_config_version: 1
+upstream_sources:
+  - pypi:
+      identifier: jupyter-lsp
+    packages:
+      - jupyter-lsp
+      - jupyter-lsp-latex
+      - jupyter-lsp-python
+      - jupyter-lsp-python-plugins
+      - jupyter-lsp-r
