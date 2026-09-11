@@ -18,7 +18,7 @@ source:
     - patches/0001-test-auth-win.patch  # [win]
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ name }}
@@ -39,7 +39,6 @@ outputs:
     test:
       requires:
         - pip
-        - m2-grep  # [win]
       commands:
         - pip check
         # print them all for debugging
@@ -47,7 +46,8 @@ outputs:
         # write out lists to grep
         - jupyter server extension list 1>server_extensions 2>&1
         # check files
-        - grep -iE "jupyter_lsp.*OK" server_extensions
+        - grep -iE "jupyter_lsp.*OK" server_extensions      # [not win]
+        - findstr /i /r "jupyter_lsp.*OK" server_extensions  # [win]
     about:
       home: https://github.com/jupyter-lsp/jupyterlab-lsp
       license: BSD-3-Clause
