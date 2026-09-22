@@ -8,7 +8,7 @@
   "test_auth_websocket"
 ] %}
 {% set tests_to_ignore = "" %}
-{% set tests_to_ignore = "--ignore=tests	est_auth.py" %}  # [win]
+{% set tests_to_ignore = "--ignore=tests\\test_auth.py" %}  # [win]
 # List of jupyter_lsp py.tests ran for each known servers
 package:
   name: {{ name }}
@@ -57,6 +57,8 @@ outputs:
       license_family: BSD
       license_file: LICENSE
       summary: Multi-Language Server WebSocket proxy for Jupyter Server
+      description: |
+          Multi-Language Server WebSocket proxy for Jupyter Server
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
   - name: {{ name }}-latex
@@ -85,6 +87,8 @@ outputs:
       license_family: BSD
       license_file: LICENSE
       summary: A metapackage for jupyter-lsp and texlab
+      description: |
+          A metapackage for jupyter-lsp and texlab
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
   - name: {{ name }}-python
@@ -112,6 +116,8 @@ outputs:
       license_family: BSD
       license_file: LICENSE
       summary: A metapackage for jupyter-lsp and python-lsp-server
+      description: |
+          A metapackage for jupyter-lsp and python-lsp-server
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
   - name: {{ name }}-python-plugins
@@ -144,6 +150,8 @@ outputs:
       license_family: BSD
       license_file: LICENSE
       summary: A metapackage for jupyter-lsp, python-language-server, and all known plugins
+      description: |
+          A metapackage for jupyter-lsp, python-language-server, and all known plugins
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
   - name: {{ name }}-r
@@ -171,6 +179,8 @@ outputs:
       license_family: BSD
       license_file: LICENSE
       summary: A metapackage jupyter-lsp and r-languageserver
+      description: |
+          A metapackage jupyter-lsp and r-languageserver
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
@@ -180,6 +190,8 @@ about:
   license_family: BSD
   license_file: LICENSE
   summary: Multi-Language Server WebSocket proxy for Jupyter Server
+  description: |
+      Multi-Language Server WebSocket proxy for Jupyter Server
   doc_url: https://jupyterlab-lsp.readthedocs.io
   dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
