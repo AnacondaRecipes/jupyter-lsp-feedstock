@@ -9,7 +9,6 @@
 ] %}
 {% set tests_to_ignore = "" %}
 {% set tests_to_ignore = "--ignore=tests	est_auth.py" %}  # [win]
-
 # List of jupyter_lsp py.tests ran for each known servers
 package:
   name: {{ name }}
