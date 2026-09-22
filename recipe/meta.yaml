@@ -1,20 +1,23 @@
 {% set name = "jupyter-lsp" %}
-{% set version = "2.3.0" %}
-
+{% set version = "2.3.1" %}
+{% set server_tests = [
+  "serverextension",
+  "start_known",
+  "listeners",
+  "test_auth_rest",
+  "test_auth_websocket"
+] %}
+{% set tests_to_ignore = "" %}
+{% set tests_to_ignore = "--ignore=tests\\test_auth.py" %}  # [win]
 # List of jupyter_lsp py.tests ran for each known servers
-{% set server_tests = ["serverextension", "start_known", "listeners", "test_auth_rest", "test_auth_websocket"] %}
-
-{% set tests_to_ignore="" %}
-{% set tests_to_ignore="--ignore=tests\\test_auth.py" %}  # [win]
-
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: 458aa59339dc868fb784d73364f17dbce8836e906cd75fd471a325cba02e0245
-  patches:                              # [win]
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: fdf8a4aa7d85813976d6e29e95e6a2c8f752701f926f2715305249a3829805a6
+  patches:  # [win]
     - patches/0001-test-auth-win.patch  # [win]
 
 build:
@@ -25,7 +28,7 @@ outputs:
     script: build_base.bat  # [win]
     script: build_base.sh  # [unix]
     build:
-      skip: true # [py<38]
+      skip: true  # [py<38]
     requirements:
       host:
         - pip
@@ -33,7 +36,7 @@ outputs:
         - setuptools
         - wheel
       run:
-        - importlib-metadata >=4.8.3 # [py<310]
+        - importlib-metadata >=4.8.3  # [py<310]
         - jupyter_server >=1.1.2
         - python
     test:
@@ -54,12 +57,13 @@ outputs:
       license_family: BSD
       license_file: LICENSE
       summary: Multi-Language Server WebSocket proxy for Jupyter Server
+      description: |
+          Multi-Language Server WebSocket proxy for Jupyter Server
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
-
   - name: {{ name }}-latex
     build:
-      skip: True # no texlab / chtex on anaconda main channel
+      skip: true  # no texlab / chtex on anaconda main channel
     requirements:
       host:
         - python
@@ -83,9 +87,10 @@ outputs:
       license_family: BSD
       license_file: LICENSE
       summary: A metapackage for jupyter-lsp and texlab
+      description: |
+          A metapackage for jupyter-lsp and texlab
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
-
   - name: {{ name }}-python
     requirements:
       host:
@@ -111,12 +116,13 @@ outputs:
       license_family: BSD
       license_file: LICENSE
       summary: A metapackage for jupyter-lsp and python-lsp-server
+      description: |
+          A metapackage for jupyter-lsp and python-lsp-server
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
-
   - name: {{ name }}-python-plugins
     build:
-      skip: True  # no pyls on anaconda main at the moment
+      skip: true  # no pyls on anaconda main at the moment
     requirements:
       host:
         - python
@@ -144,12 +150,13 @@ outputs:
       license_family: BSD
       license_file: LICENSE
       summary: A metapackage for jupyter-lsp, python-language-server, and all known plugins
+      description: |
+          A metapackage for jupyter-lsp, python-language-server, and all known plugins
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
-
   - name: {{ name }}-r
     build:
-      skip: True  # no r-languageserver on anaconda r channel at the moment
+      skip: true  # no r-languageserver on anaconda r channel at the moment
     requirements:
       host:
         - python
@@ -172,6 +179,8 @@ outputs:
       license_family: BSD
       license_file: LICENSE
       summary: A metapackage jupyter-lsp and r-languageserver
+      description: |
+          A metapackage jupyter-lsp and r-languageserver
       doc_url: https://jupyterlab-lsp.readthedocs.io
       dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
@@ -181,6 +190,8 @@ about:
   license_family: BSD
   license_file: LICENSE
   summary: Multi-Language Server WebSocket proxy for Jupyter Server
+  description: |
+      Multi-Language Server WebSocket proxy for Jupyter Server
   doc_url: https://jupyterlab-lsp.readthedocs.io
   dev_url: https://github.com/jupyter-lsp/jupyterlab-lsp
 
